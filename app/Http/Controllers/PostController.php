@@ -62,7 +62,7 @@ class PostController extends Controller
         $result = $post->joinSub($subUser,'users',function($join){
 
             $join->on('users.id', '=', 'posts.user_id');
-        })->get();
+        })->where('status',"pending")->get();
 
         return $result;
             
@@ -115,10 +115,14 @@ class PostController extends Controller
         $post_id = $request->input('post_id');
         $status = $request->input('status');
 
-        $posts = new Post();
+        $post = new Post();
 
-        $posts->find($post_id)->status = $status;
-        $result = $posts->save();
+        $post = $post->find($post_id);
+        if($post){
+
+            $post->status = $status;
+           $result = $post->save();
+        }
 
         if($result){
 
