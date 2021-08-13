@@ -34,4 +34,14 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     {
         return $this->hasMany('App\Activity');
     }
+
+    public function posts()
+    {
+        return $this->hasMany('App\Post');
+    }
+
+    public function donations()
+    {
+        return $this->hasMany('App\Donation');
+    }
 }
