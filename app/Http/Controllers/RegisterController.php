@@ -83,11 +83,11 @@ class RegisterController extends Controller
 
             if($result==true){
 
-                return 'Registration successful';
+                return 'Registered';
 
             }else{
 
-                return 'Registration failed. Try again..';
+                return 'Failed';
 
             }
 

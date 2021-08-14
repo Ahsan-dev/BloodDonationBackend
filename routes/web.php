@@ -29,3 +29,4 @@ $router->post('/donateconfirm','DonationController@donateConfirm');
 $router->post('/admindateassign','DonationController@AdminDateAssign');
 $router->post('/getdonationhistory','DonationController@getDonationHistory');
 $router->post('/getservicetakenhistory','DonationController@getServiceTakenHistory');
+$router->get('/send_email' ,'MailController@mail');

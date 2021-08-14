@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Activity;
 use Carbon\Carbon;
+use\App\Post;
 
 class LoginController extends Controller
 {
@@ -58,10 +59,16 @@ class LoginController extends Controller
             $gender = $user->find($uid)->gender;
             $proPic = $user->find($uid)->image;
 
+            $post = new Post();
+
+            $sameBlood = $post->where(['blood_grp'=>$bloodGrp, 'status'=>"pending"])->count();
+            
+
             $response = array(
 
                 "user_id"=>$uid, 
                 "days"=>$days,
+                "same_blood"=>$sameBlood,
                 "blood_group"=>$bloodGrp,
                 "user_name"=>$userName,
                 "gender"=>$gender, 
@@ -77,7 +84,7 @@ class LoginController extends Controller
             
         else{
 
-            return 'Incorrect mobile number or password!'; 
+            return 'failed'; 
         }
                
 

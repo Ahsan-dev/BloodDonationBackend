@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use App\Post;
 use App\User;
 use App\Donation;
@@ -42,11 +43,31 @@ class PostController extends Controller
 
         if($result){
 
-            return 'Posted successfully..';
+
+            $user = new User();
+            
+            //$emails = $user->select('email')->where(['police_station'=>$police_station, 'blood_group'=>$blood_grp])->pluck('email')->toArray();
+            //$recipients = $user->select('user_name')->where(['police_station'=>$police_station, 'blood_group'=>$blood_grp])->pluck('user_name')->toArray();
+
+            $emails = array("anikamim177@gmail.com");
+            $recipients = array("Anika Mim");
+
+        
+            foreach($recipients as $recipint){
+                $data = array('name'=>$recipint);
+                
+                Mail::send('mail', $data, function($message) use($emails,$recipients){
+                    $message->to($emails,$recipients)->subject('Test Mail from Blood Donor');
+                    $message->from('ahsanshantanur@gmail.com','Md Ahsanul Haque Shantanur');
+                    });
+            }
+            
+
+            return 'posted';
 
         }else{
 
-            return 'Fail to post. Try again!';
+            return 'failed';
         }
 
     }
