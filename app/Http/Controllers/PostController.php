@@ -46,11 +46,8 @@ class PostController extends Controller
 
             $user = new User();
             
-            //$emails = $user->select('email')->where(['police_station'=>$police_station, 'blood_group'=>$blood_grp])->pluck('email')->toArray();
-            //$recipients = $user->select('user_name')->where(['police_station'=>$police_station, 'blood_group'=>$blood_grp])->pluck('user_name')->toArray();
-
-            $emails = array("anikamim177@gmail.com");
-            $recipients = array("Anika Mim");
+            $emails = $user->select('email')->where(['police_station'=>$police_station, 'blood_group'=>$blood_grp])->pluck('email')->toArray();
+            $recipients = $user->select('user_name')->where(['police_station'=>$police_station, 'blood_group'=>$blood_grp])->pluck('user_name')->toArray();
 
         
             foreach($recipients as $recipint){
