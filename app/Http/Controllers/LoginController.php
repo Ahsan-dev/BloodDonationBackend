@@ -7,6 +7,7 @@ use App\User;
 use App\Activity;
 use Carbon\Carbon;
 use\App\Post;
+use\App\Donation;
 
 class LoginController extends Controller
 {
@@ -44,11 +45,24 @@ class LoginController extends Controller
                 $last_date = $user->find($uid)->donations()->latest()->first()->updated_at->toDateString();
                 $now = time(); // or your date as well        
                 $datediff = $now - strtotime($last_date);
-                $days = round($datediff / (60 * 60 * 24));
+                $daysCount = round($datediff / (60 * 60 * 24));
 
             }
            
+            
+            $donation = new Donation();
 
+            $donateCount = $donation->where(['user_id'=>$uid, 'status'=>"donated"])->count();
+
+            if($donateCount>0){
+
+                $days = $daysCount;
+
+            }else{
+
+                $days = -1;
+
+            }
 
             
             $details = $user->find($uid)->details;
@@ -62,6 +76,10 @@ class LoginController extends Controller
             $post = new Post();
 
             $sameBlood = $post->where(['blood_grp'=>$bloodGrp, 'status'=>"pending"])->count();
+
+            
+
+            
             
 
             $response = array(

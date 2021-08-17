@@ -26,6 +26,8 @@ class PostController extends Controller
         $status = $request->input('status');
 
 
+      
+
         $post = new Post();
         $post->user_id = $user_id;
         $post->details = $details;
@@ -38,6 +40,7 @@ class PostController extends Controller
         $post->date = $date;
         $post->time_frame = $time_frame;
         $post->status = $status;
+        $post->acceptors = 0;
 
         $result = $post->save();
 
@@ -77,10 +80,14 @@ class PostController extends Controller
 
         $post = new Post;
 
+        $donation = new Donation();
+
+        
+
         $result = $post->joinSub($subUser,'users',function($join){
 
             $join->on('users.id', '=', 'posts.user_id');
-        })->where('status',"pending")->get();
+        })->where(['status'=>"pending"])->where('acceptors', '<', 3)->get();
 
         return $result;
             
@@ -97,12 +104,18 @@ class PostController extends Controller
 
         $donation = new Donation();
 
+        
+        $post = new Post();
+
+        $post->find($post_id)->increment('acceptors',1);
+
         $donation->post_id = $post_id;
         $donation->user_id = $user_id;
         $donation->status = $status;
         $donation->admin = $admin;
 
         $result = $donation->save();
+
 
         if($result){
 
